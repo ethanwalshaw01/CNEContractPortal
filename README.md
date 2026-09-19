@@ -4,13 +4,15 @@ A permit-to-work and contractor allocation portal, rebuilt from the ground up wi
 modern React UI and a Supabase backend.
 
 This app is a from-scratch redesign of an uploaded Base44 export ("cne-contract-portal"),
-focused on the core workflow that portal was built around: issuing permits to work,
-allocating jobs to contractors, and keeping a shared register of contractors, site
-contacts and documents. The original export covered 70+ specialist engineering tools
-(POWRA/GS6 forms, HAVS logs, scaffold certificates, offline sync, WebAuthn, Stripe
-billing, PDF form-filling, etc.) tied to a Base44-hosted backend this project no longer
-depends on — those were intentionally out of scope for this rebuild so the core
-experience could get real design attention. See "What changed" below for details.
+covering the full original entity set — permits, allocations, ground disturbance/hot
+work/piling permits, item packs, POWRA/GS6/HAVS/pre-use-check safety logs, training
+certificates, PASS forms, document groups, and admin/home-page configuration — on a
+Supabase backend the original Base44-hosted one no longer runs on. Three categories of
+original feature were intentionally left out because they depend on real external
+services this project doesn't have credentials for: **Stripe billing**, **WebAuthn
+passkeys**, and **What3Words location lookup** (needs a W3W API key). **AI Photo Amend**
+was also left out — the photo archive/gallery exists, but not the AI-editing step. See
+"What changed" and "Scope" below for details.
 
 ## Stack
 
@@ -88,16 +90,43 @@ exact DDL if you need to reproduce it elsewhere.
   paired with `Inter` body text, and flatter, border-led surfaces (shadows reserved for
   true overlays like dialogs and dropdowns) — aimed at reading as considered, premium
   software rather than a generic AI-generated dashboard.
-- **Scope**: the core permit/allocation/contractor/document workflow was rebuilt in
-  full (registers, multi-step allocation builder, status workflows, document library
-  with real file storage); the ~50 specialist engineering tools from the original
-  export (GS6, POWRA, HAVS, scaffold workflows, PDF form auto-fill, line walks, photo
-  archive, WebAuthn passkeys, Stripe billing, offline sync) were not ported in this
-  pass.
+## Scope
+
+Everything from the original 39-entity Base44 schema is present except:
+
+- **Stripe billing**, **WebAuthn passkeys** (`PasskeyCredential`/`WebauthnChallenge`),
+  and **What3Words lookup** (`WhatThreeWordsLocation`) — need real external credentials
+  this project doesn't have.
+- **AI Photo Amend** — the `photo_archive` table and gallery page exist; the AI editing
+  step does not.
+
+A few entities with genuinely large, deeply-nested original schemas (flagged as such
+during the port) are represented with their full field set in the database, but with a
+simpler UI than the original's custom form-builder tools:
+
+- **`item_packs`** and **`ground_disturbance_permits`** — every field from the original
+  is a real column (jsonb for the nested form-builder/section config), but the register
+  UI exposes the core identifying fields rather than reimplementing the original's
+  drag-and-drop PDF field overlay builder.
+- **`pdf_forms`**, **`permit_templates`**, **`allocation_templates`/`allocation_print_templates`**
+  — same pattern: the reusable-template *data* is there, the visual field-overlay
+  builder isn't.
+- **`pass_form_logs`** — the 7-day verification cycle and visitor log are jsonb columns
+  on the record; there's no dedicated day-by-day/visitor-log editing UI yet.
+- **`home_section_order`** — table exists for a future dynamic home page; the current
+  dashboard is still the fixed layout built earlier, so this isn't wired up yet.
+
+Everything else (safety logs, training/competency, contractors, site contacts,
+documents, admin settings) has full list/create/edit/delete UI matching the rest of the
+app's design.
 
 ## Known limitations
 
 - No automated test suite yet — verified via manual + scripted browser walkthroughs
-  (build, lint, and a full click-through of every page in both themes and mobile).
-- Bundle isn't code-split yet (single ~250KB gzip JS chunk) — fine for this app's size
-  today, but worth splitting with `React.lazy` per route if it grows.
+  (build, lint, and a full click-through of every page — including every new route added
+  in the full-entity-set pass — in both themes and mobile).
+- Bundle isn't code-split yet (single ~260KB gzip JS chunk) — fine for this app's size
+  today, but worth splitting with `React.lazy` per route as it keeps growing.
+- No role-based route/data guarding yet — any authenticated user can reach any page and
+  any table's rows (RLS only checks "is authenticated", not role). Fine for a small
+  internal team; worth adding before opening this up more broadly.
