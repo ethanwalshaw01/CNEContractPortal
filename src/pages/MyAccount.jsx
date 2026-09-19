@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { LogOut, Save, Moon, Sun } from 'lucide-react'
+import { LogOut, Save, Moon, Sun, KeyRound } from 'lucide-react'
 import PageHeader from '@/components/common/PageHeader'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,10 @@ export default function MyAccount() {
   const [phone, setPhone] = useState('')
   const [saving, setSaving] = useState(false)
 
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [changingPassword, setChangingPassword] = useState(false)
+
   useEffect(() => {
     if (profile) {
       setFullName(profile.full_name || '')
@@ -42,6 +46,28 @@ export default function MyAccount() {
     }
     await refreshProfile()
     toast.success('Profile updated')
+  }
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault()
+    if (newPassword.length < 6) {
+      toast.error('Password must be at least 6 characters')
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error('Passwords do not match')
+      return
+    }
+    setChangingPassword(true)
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    setChangingPassword(false)
+    if (error) {
+      toast.error(error.message)
+      return
+    }
+    setNewPassword('')
+    setConfirmPassword('')
+    toast.success('Password updated')
   }
 
   const handleSignOut = async () => {
@@ -88,6 +114,45 @@ export default function MyAccount() {
               <Button type="submit" disabled={saving}>
                 <Save className="mr-1.5 h-4 w-4" />
                 {saving ? 'Saving…' : 'Save changes'}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle className="text-base">Change password</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleChangePassword} className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="newPassword">New password</Label>
+                <Input
+                  id="newPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="At least 6 characters"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="confirmPassword">Confirm password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit" disabled={changingPassword}>
+                <KeyRound className="mr-1.5 h-4 w-4" />
+                {changingPassword ? 'Updating…' : 'Update password'}
               </Button>
             </div>
           </form>
