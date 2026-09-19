@@ -137,7 +137,7 @@ export default function DocumentLibrary() {
       ) : (
         <div className="space-y-3">
           {filtered.map((doc) => (
-            <Card key={doc.id} className="shadow-soft">
+            <Card key={doc.id}>
               <CardContent className="flex items-center gap-4 p-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                   {doc.mime_type?.includes('pdf') ? <FileText className="h-5 w-5" /> : <FileIcon className="h-5 w-5" />}

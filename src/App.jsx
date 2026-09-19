@@ -21,6 +21,7 @@ import AllocationDetail from '@/pages/allocations/AllocationDetail'
 import AllocationAccept from '@/pages/allocations/AllocationAccept'
 
 import Contractors from '@/pages/Contractors'
+import ContractorDetail from '@/pages/ContractorDetail'
 import SiteContacts from '@/pages/SiteContacts'
 import DocumentLibrary from '@/pages/DocumentLibrary'
 import MyAccount from '@/pages/MyAccount'
@@ -52,6 +53,7 @@ export default function App() {
             <Route path="/allocations/:id/edit" element={<AllocationBuilder />} />
 
             <Route path="/contractors" element={<Contractors />} />
+            <Route path="/contractors/:id" element={<ContractorDetail />} />
             <Route path="/contacts" element={<SiteContacts />} />
             <Route path="/documents" element={<DocumentLibrary />} />
             <Route path="/account" element={<MyAccount />} />

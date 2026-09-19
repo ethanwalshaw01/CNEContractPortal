@@ -80,6 +80,14 @@ exact DDL if you need to reproduce it elsewhere.
   link with no login required, backed by two narrowly-scoped Postgres RPC functions
   (rather than a broad public RLS policy) so only the fields needed for that flow are
   ever exposed.
+- **Contractor hub**: each contractor has its own page (`/contractors/:id`) rolling up
+  their contact details, status, and every permit and allocation linked to them —
+  the "contractor management hub" is a real aggregation view, not just a label.
+- **Visual identity**: a custom hub-and-spoke mark (not a stock icon), a warm
+  ink/graphite + amber palette in place of default-template blue, `Manrope` headings
+  paired with `Inter` body text, and flatter, border-led surfaces (shadows reserved for
+  true overlays like dialogs and dropdowns) — aimed at reading as considered, premium
+  software rather than a generic AI-generated dashboard.
 - **Scope**: the core permit/allocation/contractor/document workflow was rebuilt in
   full (registers, multi-step allocation builder, status workflows, document library
   with real file storage); the ~50 specialist engineering tools from the original

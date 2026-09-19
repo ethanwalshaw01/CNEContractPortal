@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { Building2, Mail, Phone, Pencil, Trash2, Plus } from 'lucide-react'
 import PageHeader from '@/components/common/PageHeader'
@@ -28,6 +28,7 @@ const EMPTY_FORM = { company_name: '', contact_name: '', email: '', phone: '', t
 
 export default function Contractors() {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
   const { data: contractors, isLoading } = useContractors()
   const createContractor = useCreateContractor()
@@ -45,9 +46,14 @@ export default function Contractors() {
       openCreate()
       params.delete('new')
       setParams(params, { replace: true })
+    } else if (params.get('edit') && contractors) {
+      const target = contractors.find((c) => c.id === params.get('edit'))
+      if (target) openEdit(target)
+      params.delete('edit')
+      setParams(params, { replace: true })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [contractors])
 
   const filtered = useMemo(() => {
     if (!contractors) return []
@@ -133,7 +139,11 @@ export default function Contractors() {
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((contractor) => (
-            <Card key={contractor.id} className="group relative shadow-soft transition-shadow hover:shadow-panel">
+            <Card
+              key={contractor.id}
+              onClick={() => navigate(`/contractors/${contractor.id}`)}
+              className="group relative cursor-pointer transition-colors hover:border-foreground/20"
+            >
               <CardContent className="p-5">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-3">
@@ -163,14 +173,24 @@ export default function Contractors() {
                 </div>
 
                 <div className="mt-4 flex justify-end gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-                  <Button variant="ghost" size="icon" onClick={() => openEdit(contractor)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openEdit(contractor)
+                    }}
+                  >
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="text-destructive hover:text-destructive"
-                    onClick={() => setConfirmDeleteId(contractor.id)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setConfirmDeleteId(contractor.id)
+                    }}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

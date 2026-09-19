@@ -4,66 +4,66 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 40 14% 97%;
+    --foreground: 20 14% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 20 14% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 221 83% 45%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 221 39% 95%;
-    --secondary-foreground: 222 47% 20%;
-    --muted: 220 20% 95%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 213 94% 96%;
-    --accent-foreground: 221 83% 35%;
-    --destructive: 0 72% 51%;
+    --popover-foreground: 20 14% 10%;
+    --primary: 20 14% 11%;
+    --primary-foreground: 40 20% 98%;
+    --secondary: 32 12% 93%;
+    --secondary-foreground: 20 14% 16%;
+    --muted: 32 10% 94%;
+    --muted-foreground: 25 8% 42%;
+    --accent: 30 16% 92%;
+    --accent-foreground: 20 30% 18%;
+    --destructive: 0 68% 48%;
     --destructive-foreground: 0 0% 100%;
-    --success: 152 60% 36%;
+    --success: 152 48% 30%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 45%;
+    --warning: 28 88% 45%;
     --warning-foreground: 0 0% 100%;
-    --border: 220 16% 89%;
-    --input: 220 16% 89%;
-    --ring: 221 83% 45%;
-    --radius: 0.75rem;
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 214 32% 85%;
-    --sidebar-primary: 221 83% 60%;
-    --sidebar-border: 222 40% 18%;
-    --sidebar-accent: 222 40% 16%;
+    --border: 30 12% 88%;
+    --input: 30 12% 87%;
+    --ring: 20 14% 11%;
+    --radius: 0.5rem;
+    --sidebar-background: 20 9% 8%;
+    --sidebar-foreground: 32 10% 80%;
+    --sidebar-primary: 30 88% 55%;
+    --sidebar-border: 20 9% 15%;
+    --sidebar-accent: 20 9% 14%;
   }
 
   .dark {
-    --background: 222 47% 8%;
-    --foreground: 210 40% 96%;
-    --card: 222 44% 11%;
-    --card-foreground: 210 40% 96%;
-    --popover: 222 44% 11%;
-    --popover-foreground: 210 40% 96%;
-    --primary: 217 91% 65%;
-    --primary-foreground: 222 47% 10%;
-    --secondary: 222 33% 17%;
-    --secondary-foreground: 210 40% 96%;
-    --muted: 222 33% 15%;
-    --muted-foreground: 217 15% 65%;
-    --accent: 217 60% 20%;
-    --accent-foreground: 210 40% 96%;
-    --destructive: 0 63% 55%;
+    --background: 20 10% 6%;
+    --foreground: 40 15% 95%;
+    --card: 20 10% 9%;
+    --card-foreground: 40 15% 95%;
+    --popover: 20 10% 9%;
+    --popover-foreground: 40 15% 95%;
+    --primary: 38 30% 92%;
+    --primary-foreground: 20 14% 10%;
+    --secondary: 20 8% 15%;
+    --secondary-foreground: 40 15% 92%;
+    --muted: 20 8% 14%;
+    --muted-foreground: 30 8% 63%;
+    --accent: 20 10% 17%;
+    --accent-foreground: 38 25% 90%;
+    --destructive: 0 62% 55%;
     --destructive-foreground: 0 0% 100%;
-    --success: 152 55% 42%;
+    --success: 152 42% 45%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 55%;
-    --warning-foreground: 222 47% 10%;
-    --border: 222 30% 20%;
-    --input: 222 30% 22%;
-    --ring: 217 91% 65%;
-    --sidebar-background: 222 47% 6%;
-    --sidebar-foreground: 214 32% 85%;
-    --sidebar-primary: 217 91% 65%;
-    --sidebar-border: 222 40% 14%;
-    --sidebar-accent: 222 40% 12%;
+    --warning: 32 90% 58%;
+    --warning-foreground: 20 14% 10%;
+    --border: 20 9% 18%;
+    --input: 20 9% 20%;
+    --ring: 38 30% 80%;
+    --sidebar-background: 20 12% 4%;
+    --sidebar-foreground: 32 10% 78%;
+    --sidebar-primary: 32 90% 58%;
+    --sidebar-border: 20 12% 11%;
+    --sidebar-accent: 20 12% 10%;
   }
 }
 
@@ -77,9 +77,14 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'ss01' on, 'cv01' on;
+  }
+  h1, h2, h3, .font-heading {
+    font-family: 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
   ::selection {
-    @apply bg-primary/20;
+    background-color: hsl(var(--warning) / 0.25);
   }
 }
 
@@ -93,5 +98,8 @@
   }
   .transition-page {
     animation: fade-in 0.35s ease-out;
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 }

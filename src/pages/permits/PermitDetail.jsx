@@ -119,7 +119,19 @@ export default function PermitDetail() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <InfoRow icon={MapPin} label="Site" value={permit.site_name || permit.location || '—'} />
-            <InfoRow icon={Building2} label="Contractor" value={permit.contractor?.company_name || 'Unassigned'} />
+            <InfoRow
+              icon={Building2}
+              label="Contractor"
+              value={
+                permit.contractor ? (
+                  <Link to={`/contractors/${permit.contractor.id}`} className="text-primary hover:underline">
+                    {permit.contractor.company_name}
+                  </Link>
+                ) : (
+                  'Unassigned'
+                )
+              }
+            />
             <InfoRow
               icon={CalendarRange}
               label="Dates"

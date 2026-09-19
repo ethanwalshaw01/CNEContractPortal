@@ -2,25 +2,24 @@ import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
-export default function StatCard({ label, value, icon: Icon, tone = 'primary', loading }) {
+export default function StatCard({ label, value, icon: Icon, tone = 'default', loading }) {
   const tones = {
-    primary: 'bg-primary/10 text-primary',
-    success: 'bg-success/10 text-success',
-    warning: 'bg-warning/10 text-warning',
-    accent: 'bg-accent text-accent-foreground',
+    default: 'text-muted-foreground',
+    success: 'text-success',
+    warning: 'text-warning',
   }
 
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-      <Card className="border-border/70 shadow-soft transition-shadow hover:shadow-panel">
-        <CardContent className="flex items-center gap-4 p-5">
-          <div className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl', tones[tone])}>
-            <Icon className="h-5 w-5" />
+      <Card className="transition-colors hover:border-foreground/20">
+        <CardContent className="p-5">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+            {Icon && <Icon className={cn('h-4 w-4', tones[tone])} />}
           </div>
-          <div>
-            <p className="text-2xl font-bold leading-none tabular-nums">{loading ? '—' : value}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{label}</p>
-          </div>
+          <p className="mt-2.5 font-heading text-3xl font-bold leading-none tabular-nums">
+            {loading ? <span className="text-muted-foreground/40">–</span> : value}
+          </p>
         </CardContent>
       </Card>
     </motion.div>

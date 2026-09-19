@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { CheckCircle2, ClipboardList, MapPin, CalendarRange, Building2, FileText, Zap } from 'lucide-react'
+import { CheckCircle2, ClipboardList, MapPin, CalendarRange, Building2, FileText } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import Logo from '@/components/Logo'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -51,10 +52,8 @@ export default function AllocationAccept() {
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-10">
       <div className="w-full max-w-lg">
         <div className="mb-6 flex items-center justify-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Zap className="h-5 w-5" fill="currentColor" />
-          </div>
-          <span className="text-base font-bold">CNE Contract Portal</span>
+          <Logo size={34} />
+          <span className="font-heading text-base font-bold">CNE Contract Portal</span>
         </div>
 
         <Card className="shadow-panel">

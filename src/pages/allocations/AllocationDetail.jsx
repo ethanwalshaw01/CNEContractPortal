@@ -114,7 +114,19 @@ export default function AllocationDetail() {
           <Separator />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <InfoRow icon={MapPin} label="Site" value={allocation.site_name || '—'} />
-            <InfoRow icon={Building2} label="Contractor" value={allocation.contractor?.company_name || 'Unassigned'} />
+            <InfoRow
+              icon={Building2}
+              label="Contractor"
+              value={
+                allocation.contractor ? (
+                  <Link to={`/contractors/${allocation.contractor.id}`} className="text-primary hover:underline">
+                    {allocation.contractor.company_name}
+                  </Link>
+                ) : (
+                  'Unassigned'
+                )
+              }
+            />
             <InfoRow
               icon={CalendarRange}
               label="Dates"

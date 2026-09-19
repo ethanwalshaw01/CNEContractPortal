@@ -113,7 +113,7 @@ export default function SiteContacts() {
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((contact) => (
-            <Card key={contact.id} className="group shadow-soft transition-shadow hover:shadow-panel">
+            <Card key={contact.id} className="group transition-colors hover:border-foreground/20">
               <CardContent className="p-5">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">

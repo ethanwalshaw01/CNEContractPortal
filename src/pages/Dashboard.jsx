@@ -34,7 +34,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Live permits" value={stats?.livePermits} icon={FileText} tone="success" loading={statsLoading} />
-        <StatCard label="Issued permits" value={stats?.issuedPermits} icon={FileText} tone="primary" loading={statsLoading} />
+        <StatCard label="Issued permits" value={stats?.issuedPermits} icon={FileText} loading={statsLoading} />
         <StatCard
           label="Pending allocations"
           value={stats?.pendingAllocations}
@@ -42,7 +42,7 @@ export default function Dashboard() {
           tone="warning"
           loading={statsLoading}
         />
-        <StatCard label="Active contractors" value={stats?.contractors} icon={Building2} tone="accent" loading={statsLoading} />
+        <StatCard label="Active contractors" value={stats?.contractors} icon={Building2} loading={statsLoading} />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
